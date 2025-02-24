@@ -18,12 +18,18 @@ int main(int argc, char *argv[]) {
     // Wait for user input
     char input[MAX_INPUT_COMMAND_LENGTH] = {0};
     char exit_string[] = "exit 0";
+    char echo_string[] = "echo";
     fgets(input, GET_ARRAY_SIZE(input), stdin);
 
     input[strlen(input) - 1] = '\0';
     if (strncmp(input, exit_string, strlen(exit_string)) == 0)
     {
-      exit(0);
+      return 0;
+    }
+    if (strncmp(input, echo_string, strlen(echo_string)) == 0)
+    {
+      printf("%s\n", input[strlen(echo_string)]);
+      continue;
     }
     else
     {
