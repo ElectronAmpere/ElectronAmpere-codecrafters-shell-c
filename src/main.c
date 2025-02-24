@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
     // Wait for user input
     char input[MAX_INPUT_COMMAND_LENGTH] = {0};
-    char exit_string[] = "exit 0"
+    char exit_string[] = "exit 0";
     fgets(input, GET_ARRAY_SIZE(input), stdin);
 
     input[strlen(input) - 1] = '\0';
