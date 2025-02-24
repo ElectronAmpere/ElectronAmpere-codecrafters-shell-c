@@ -17,6 +17,6 @@ int main(int argc, char *argv[]) {
   fgets(input, GET_ARRAY_SIZE(input), stdin);
 
   input[GET_ARRAY_SIZE(input) - 1] = '\0';
-  printf("%s: command not found", input);
+  printf("%s: command not found\n", input);
   return 0;
 }
