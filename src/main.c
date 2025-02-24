@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_INPUT_COMMAND_LENGTH (100)
+#define GET_ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
+
 int main(int argc, char *argv[]) {
   // Flush after every printf
   setbuf(stdout, NULL);
@@ -10,10 +13,10 @@ int main(int argc, char *argv[]) {
   printf("$ ");
 
   // Wait for user input
-  char input[100];
-  fgets(input, 100, stdin);
+  char input[MAX_INPUT_COMMAND_LENGTH] = {0};
+  fgets(input, GET_ARRAY_SIZE(input), stdin);
 
-  input[strlen(input) - 1] = '\0';
+  input[GET_ARRAY_SIZE(input) - 1] = '\0';
   printf("%s: command not found", input);
   return 0;
 }
