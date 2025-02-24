@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     {
       return 0;
     }
-    if (strncmp(input, echo_string, strlen(echo_string)) == 0)
+    else if (strncmp(input, echo_string, strlen(echo_string)) == 0)
     {
       printf("%s\n", input + strlen(echo_string) + 1);
       continue;
