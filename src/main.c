@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
       }
       else
       {
-        printf("%s: command not found\n", input + strlen(type_cmd) + 1);
+        printf("%s: not found\n", input + strlen(type_cmd) + 1);
       }
     }
     else
