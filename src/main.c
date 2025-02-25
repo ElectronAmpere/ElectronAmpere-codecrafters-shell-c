@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     char input[MAX_INPUT_COMMAND_LENGTH] = {0};
     char exit_cmd[] = "exit 0";
     char echo_cmd[] = "echo";
-    char type_cmd[] = "type"
+    char type_cmd[] = "type";
 
     fgets(input, GET_ARRAY_SIZE(input), stdin);
 
