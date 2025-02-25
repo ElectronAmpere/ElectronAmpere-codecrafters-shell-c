@@ -17,14 +17,15 @@ int main(int argc, char *argv[]) {
 
     // Wait for user input
     char input[MAX_INPUT_COMMAND_LENGTH] = {0};
-    char exit_cmd[] = "exit 0";
+    char exit_cmd[] = "exit";
     char echo_cmd[] = "echo";
     char type_cmd[] = "type";
 
     fgets(input, GET_ARRAY_SIZE(input), stdin);
 
     input[strlen(input) - 1] = '\0';
-    if (strncmp(input, exit_cmd, strlen(exit_cmd)) == 0)
+    if ((strncmp(input, exit_cmd, strlen(exit_cmd)) == 0)
+      &&(strncmp((input + strlen(exit_cmd)), " 0", strlen(" 0")) == 0))
     {
       return 0;
     }
