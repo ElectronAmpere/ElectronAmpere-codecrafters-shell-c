@@ -1,9 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #define MAX_INPUT_COMMAND_LENGTH (100)
+#define MAX_PATH_ARRAY_LENGTH (1024)
 #define GET_ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
+
+#define ENV_PATH_NAME "PATH"
+
+int is_executable(const char *path)
+{
+  return (access(path, X_OK) == 0);
+}
+
+char *find_path(const char* command)
+{
+  char *env_p = getenv(ENV_PATH_NAME);
+
+  if (env_p == NULL)
+    return NULL;
+
+  char* path_cpy = strdup(env_p);
+  char* dir = strtok(env_p, ":");
+
+  static char full_path[MAX_PATH_ARRAY_LENGTH];
+
+  while (dir != NULL){
+    snprintf(full_path, sizeof(full_path), "%s/%s", dir, command);
+    
+    if (is_executable(full_path)){
+      free(path_cpy);
+      return full_path;
+    } 
+    dir = strtok(NULL, ":");
+  }
+
+  free(path_cpy);
+  return NULL;
+}
 
 int main(int argc, char *argv[]) {
 
@@ -50,7 +89,15 @@ int main(int argc, char *argv[]) {
       }
       else
       {
-        printf("%s: not found\n", input + strlen(type_cmd) + 1);
+        char *path = find_path((input + strlen(type_cmd) + 1));
+        if (path)
+        {
+          printf("%s is %s\n", (input + strlen(type_cmd) + 1), path);
+        }
+        else
+        {
+          printf("%s: not found\n", input + strlen(type_cmd) + 1);
+        }
       }
     }
     else
