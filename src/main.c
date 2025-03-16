@@ -12,6 +12,7 @@
 #define GET_ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
 
 #define ENV_PATH_NAME "PATH"
+static char full_path[MAX_PATH_ARRAY_LENGTH];
 
 int is_executable(const char *path)
 {
@@ -21,18 +22,14 @@ int is_executable(const char *path)
 char *find_path(const char* command)
 {
   char *env_p = getenv(ENV_PATH_NAME);
-
   if (env_p == NULL)
     return NULL;
 
   char* path_cpy = strdup(env_p);
   char* dir = strtok(env_p, ":");
 
-  static char full_path[MAX_PATH_ARRAY_LENGTH];
-
   while (dir != NULL){
     snprintf(full_path, sizeof(full_path), "%s/%s", dir, command);
-    
     if (is_executable(full_path)){
       free(path_cpy);
       return full_path;
@@ -90,13 +87,13 @@ int main(int argc, char *argv[]) {
       else
       {
         char *path = find_path((input + strlen(type_cmd) + 1));
-        if (path)
+        if (path != NULL)
         {
           printf("%s is %s\n", (input + strlen(type_cmd) + 1), path);
         }
         else
         {
-          printf("%s: not found\n", input + strlen(type_cmd) + 1);
+          printf("%s: not found\n", (input + strlen(type_cmd) + 1));
         }
       }
     }
