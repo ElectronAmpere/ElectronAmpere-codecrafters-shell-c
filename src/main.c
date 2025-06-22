@@ -1,13 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
-#include "utils/file_management.h"
+
+#include "file_management.h"
 
 #define MAX_INPUT_COMMAND_LENGTH (100)
 #define GET_ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
@@ -30,9 +26,9 @@ int action_echo(const char* input)
 int action_exit(const char* input)
 {   
     if (strncmp(input, "0", strlen("0")) == 0)
-        return 0;
+        exit(0);
     else
-        return 1;
+        exit(1);
 }
 
 int action_type(const char* input)
@@ -47,7 +43,7 @@ int action_type(const char* input)
     }
     else
     {
-        const char *path = utils_fm_find_path_of_command(input);
+        char *path = utils_fm_find_path_of_command(input);
         
         if (path != NULL)
         {

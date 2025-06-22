@@ -1,4 +1,13 @@
 #include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdbool.h>
+#include <fcntl.h>
+#include <string.h>
+#include <stdlib.h>
+
 #include "file_management.h"
 
 #define ENV_PATH_NAME "PATH"
@@ -12,11 +21,11 @@ static char full_path_g[FILE_PATH_LENGTH_MAX];
  *
  * @return     { description_of_the_return_value }
  */
-int utils_fm_is_file_executable(const char *file_path);
+int utils_fm_is_file_executable(const char *file_path)
 {
     int result = false;
 
-    result = (access(path, X_OK) == 0);
+    result = (access(file_path, X_OK) == 0);
 
     return (result);
 }
