@@ -32,12 +32,10 @@ int action_exit(const char* input)
 
 int action_type(const char* input)
 {
-    //printf("1:%s\n", input);
     const Command_t *command = find_command(input);
 
     if (command)
     {
-        //printf("2:%s\n", command->name);
         printf("%s is a shell builtin\n", input);
     }
     else
@@ -84,7 +82,7 @@ void process_command(const char* input)
     if (command){
         command->execute((input + command->size + 1));
     } else {
-        printf("Unknown command: %s\n", input);
+        printf("%s: not found\n", input);
     }
 }
 

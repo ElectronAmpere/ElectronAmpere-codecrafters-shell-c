@@ -45,6 +45,16 @@ char *utils_fm_find_path_of_command(const char* command)
         return NULL;
 
     char* path_cpy = strdup(env_p);
+    /**
+     * Bug Details:
+     *  Line: char* dir = strtok(env_p, ":");
+     *  Problem: strtok modifies its input string (env_p) by inserting null terminators. 
+     *      Since env_p is from getenv, this may corrupt the environment or cause undefined behavior.
+     *  Consequence: The first call to utils_fm_find_path_of_command (e.g., for cp) may work if 
+     *      cp is found before PATH is fully corrupted. Subsequent calls (e.g., for ls) fail because 
+     *      env_p is already modified, and strtok cannot continue tokenizing correctly.
+     *  Fix: Use path_cpy (the duplicated string) for tokenization, as it’s safe to modify.
+     */ 
     char* dir = strtok(path_cpy, ":");
 
     while(dir != NULL)
