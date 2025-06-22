@@ -45,7 +45,7 @@ char *utils_fm_find_path_of_command(const char* command)
         return NULL;
 
     char* path_cpy = strdup(env_p);
-    char* dir = strtok(env_p, ":");
+    char* dir = strtok(path_cpy, ":");
 
     while(dir != NULL)
     {
