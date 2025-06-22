@@ -8,7 +8,6 @@
 #define MAX_INPUT_COMMAND_LENGTH (100)
 #define GET_ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
 
-
 typedef struct{
     const char *name; // Holds the name of the command
     const int size;
@@ -33,12 +32,12 @@ int action_exit(const char* input)
 
 int action_type(const char* input)
 {
+    //printf("1:%s\n", input);
     const Command_t *command = find_command(input);
-
-    input += command->size + 1;
 
     if (command)
     {
+        //printf("2:%s\n", command->name);
         printf("%s is a shell builtin\n", input);
     }
     else
@@ -60,7 +59,7 @@ int action_type(const char* input)
 static const Command_t commands[] = {
     {"echo", 4, &action_echo},
     {"exit", 4, &action_exit},
-    {"type", 4, &action_type}, 
+    {"type", 4, &action_type},
 };
 
 #define MAX_COMMAND_LIST (GET_ARRAY_SIZE(commands))
@@ -71,7 +70,7 @@ const Command_t* find_command(const char* input)
     {
         if (strncmp(input, commands[index].name, commands[index].size) == 0)
         {
-            return &commands[index];
+            return (&commands[index]);
         }
     }
 
