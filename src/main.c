@@ -19,16 +19,20 @@ typedef struct{
     int (*execute) (const char* input); // Operates on that command
 }Command_t;
 
+const Command_t* find_command(const char* input);
+
 int action_echo(const char* input)
 {   
     printf("%s\n", input);
-    continue;
+    return 0;
 }
 
 int action_exit(const char* input)
 {   
     if (strncmp(input, "0", strlen("0")) == 0)
         return 0;
+    else
+        return 1;
 }
 
 int action_type(const char* input)
@@ -54,6 +58,7 @@ int action_type(const char* input)
           printf("%s: not found\n", input);
         }
     }
+    return 0;
 }
 
 static const Command_t commands[] = {
@@ -68,7 +73,7 @@ const Command_t* find_command(const char* input)
 {
     for (int index = 0; index < MAX_COMMAND_LIST; index++)
     {
-        if (strcmp(input, commands[index].name, commands[index].size) == 0)
+        if (strncmp(input, commands[index].name, commands[index].size) == 0)
         {
             return &commands[index];
         }
@@ -91,22 +96,23 @@ void process_command(const char* input)
 
 int main(int argc, char *argv[]) {
 
-  while(1)
-  {
-    // Flush after every printf
-    setbuf(stdout, NULL); 
+    while(1)
+    {
+        // Flush after every printf
+        setbuf(stdout, NULL); 
 
-    // Uncomment this block to pass the first stage
-    printf("$ ");
+        // Uncomment this block to pass the first stage
+        printf("$ ");
 
-    // Wait for user input
-    char input[MAX_INPUT_COMMAND_LENGTH] = {0};
+        // Wait for user input
+        char input[MAX_INPUT_COMMAND_LENGTH] = {0};
 
-    fgets(input, GET_ARRAY_SIZE(input), stdin);
+        fgets(input, GET_ARRAY_SIZE(input), stdin);
 
-    input[strlen(input) - 1] = '\0'; // Add null termination
+        input[strlen(input) - 1] = '\0'; // Add null termination
 
-    process_command(input);
+        process_command(input);
 
+    }
     return 0;
 }
