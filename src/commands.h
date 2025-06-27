@@ -7,9 +7,6 @@ typedef struct{
     int (*execute) (const char* input); // Operates on that command
 }Command_t;
 
-#define MAX_INPUT_COMMAND_LENGTH (100)
-
-
 int action_echo(const char* input);
 int action_exit(const char* input);
 int action_type(const char* input);

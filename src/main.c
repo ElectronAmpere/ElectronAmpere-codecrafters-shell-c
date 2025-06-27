@@ -5,6 +5,7 @@
 #include "commands.h"
 #include "utils.h"
 
+#define MAX_INPUT_COMMAND_LENGTH (100)
 
 int main(int argc, char *argv[]) {
 
