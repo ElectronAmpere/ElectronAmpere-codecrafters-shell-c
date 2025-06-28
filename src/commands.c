@@ -14,64 +14,55 @@ static const Command_t commands[] = {
 
 #define MAX_COMMAND_LIST (GET_ARRAY_SIZE(commands))
 
-int action_echo(const char* input)
-{   
+int action_echo(const char* input) {   
+    
     printf("%s\n", input);
+    
     return 0;
 }
 
-int action_exit(const char* input)
-{   
+int action_exit(const char* input) {   
+    
     if (strncmp(input, "0", strlen("0")) == 0)
         exit(0);
     else
         exit(1);
 }
 
-int action_type(const char* input)
-{
+int action_type(const char* input) {
+    
     const Command_t *command = find_command(input);
 
-    if (command)
-    {
+    if (command) {
         printf("%s is a shell builtin\n", input);
-    }
-    else
-    {
-        char *path = utils_fm_find_path_of_command(input);
+    } else {
+        char *path = fm_find_path_of_command(input);
         
         if (path != NULL)
-        {
             printf("%s is %s\n", input, path);
-        }
         else
-        {
-          printf("%s: not found\n", input);
-        }
+            printf("%s: not found\n", input);
     }
+
     return 0;
 }
 
-const Command_t* find_command(const char* input)
-{
-    for (int index = 0; index < MAX_COMMAND_LIST; index++)
-    {
+const Command_t* find_command(const char* input) {
+    
+    for (int index = 0; index < MAX_COMMAND_LIST; index++) {
         if (strncmp(input, commands[index].name, commands[index].size) == 0)
-        {
             return (&commands[index]);
-        }
     }
 
     return NULL;
 }
 
-void process_command(const char* input)
-{
+void process_command(const char* input) {
+    
     const Command_t *command = find_command(input);
 
-    if (command){
+    if (command)
         command->execute((input + command->size + 1));
-    } else {
+    else
         printf("%s: not found\n", input);
-    }
 }

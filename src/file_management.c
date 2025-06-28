@@ -21,8 +21,8 @@ static char full_path_g[FILE_PATH_LENGTH_MAX];
  *
  * @return     { description_of_the_return_value }
  */
-int utils_fm_is_file_executable(const char *file_path)
-{
+int fm_is_file_executable(const char *file_path) {
+    
     int result = false;
 
     result = (access(file_path, X_OK) == 0);
@@ -37,8 +37,8 @@ int utils_fm_is_file_executable(const char *file_path)
  *
  * @return     { description_of_the_return_value }
  */
-char *utils_fm_find_path_of_command(const char* command)
-{
+char* fm_find_path_of_command(const char* command) {
+    
     char *env_p = getenv(ENV_PATH_NAME);
 
     if(env_p == NULL)
@@ -57,12 +57,13 @@ char *utils_fm_find_path_of_command(const char* command)
      */ 
     char* dir = strtok(path_cpy, ":");
 
-    while(dir != NULL)
-    {
+    while(dir != NULL) {
+        
         snprintf(full_path_g, sizeof(full_path_g), "%s/%s", dir, command);
 
         /* Check if the path is an executable or not */
-        if(utils_fm_is_file_executable(full_path_g)){
+        if(fm_is_file_executable(full_path_g)) {
+            
             free(path_cpy);
 
             return full_path_g;
