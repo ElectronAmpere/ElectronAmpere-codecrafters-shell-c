@@ -59,7 +59,9 @@ char* fm_find_path_of_command(const char* command) {
 
     while(dir != NULL) {
         
-        snprintf(full_path_g, sizeof(full_path_g), "%s/%s", dir, command);
+        // Check for null command
+        if (command != NULL)
+            snprintf(full_path_g, sizeof(full_path_g), "%s/%s", dir, command);
 
         /* Check if the path is an executable or not */
         if(fm_is_file_executable(full_path_g)) {
@@ -73,5 +75,6 @@ char* fm_find_path_of_command(const char* command) {
     }
 
     free(path_cpy);
+    
     return NULL;
 }
