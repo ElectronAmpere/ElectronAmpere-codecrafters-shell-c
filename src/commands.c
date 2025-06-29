@@ -26,7 +26,7 @@ int action_echo(const char* input) {
 
 int action_exit(const char* input) {   
     
-    if (strncmp(input, "0", strlen("0")) == 0)
+    if ((input[0] == '\0') || (strncmp(input, "0", 1) == 0))
         exit(0);
     else
         exit(1);
@@ -108,10 +108,14 @@ void run_executable(const char* input, int size, char* args[]){
     // Exit with reason when forking fails
     if (child == 0) {
 
-        if (path != NULL)
-            execv(path, args);
-        else
+        if (path != NULL){
+            if (execv(path, args) != 0)
+                perror("execv failed");
+        }
+        else {
             printf("%s: command not found\n", args[0]);
+        }
+        exit(1);
 
     } else if (child > 0) {
 
@@ -127,14 +131,17 @@ void run_executable(const char* input, int size, char* args[]){
 
         perror("Child forking failed");
     }
+
 }
 
 void process_command(const char* input, int size, char* args[]) {
 
     const Command_t *command = find_command(input);
 
-    if (command)
-        command->execute((input + command->size + 1));
+    if (command){
+        if (input[command->size] == ' ' || input[command->size] == '\0') 
+            command->execute(((input[command->size] == ' ') ? input + command->size + 1 : ""));
+    }
     else
         //printf("%s: not found\n", input);
         run_executable(input, size, args);

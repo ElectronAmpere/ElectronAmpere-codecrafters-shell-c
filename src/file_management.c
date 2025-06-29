@@ -12,8 +12,7 @@
 
 #define ENV_PATH_NAME "PATH"
 #define FILE_PATH_LENGTH_MAX (1024)
-static char full_path_g[FILE_PATH_LENGTH_MAX];
-
+static char full_path_g[FILE_PATH_LENGTH_MAX] = {0};
 /**
  * @brief      { function_description }
  *
@@ -56,25 +55,30 @@ char* fm_find_path_of_command(const char* command) {
      *  Fix: Use path_cpy (the duplicated string) for tokenization, as it’s safe to modify.
      */ 
     char* dir = strtok(path_cpy, ":");
+    //char* full_path_g = malloc(FILE_PATH_LENGTH_MAX);
+    for (int index = 0; index < FILE_PATH_LENGTH_MAX; index++){
+        full_path_g[index] = 0;
+    }
 
     while(dir != NULL) {
         
         // Check for null command
-        if (command != NULL)
+        if (command != NULL){
             snprintf(full_path_g, sizeof(full_path_g), "%s/%s", dir, command);
 
-        /* Check if the path is an executable or not */
-        if(fm_is_file_executable(full_path_g)) {
-            
-            free(path_cpy);
+            /* Check if the path is an executable or not */
+            if(fm_is_file_executable(full_path_g)) {
+                
+                free(path_cpy);
 
-            return full_path_g;
+                return full_path_g;
+            }
         }
 
         dir = strtok(NULL, ":");
     }
 
     free(path_cpy);
-    
+
     return NULL;
 }

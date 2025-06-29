@@ -21,10 +21,10 @@ int main(int argc, char *argv[]) {
         char input[MAX_INPUT_COMMAND_LENGTH] = {0};
 
         // Gets the input arguments from standard input
-        fgets(input, GET_ARRAY_SIZE(input), stdin);
-
-        if (input[0] == '\0')
-            continue;
+        if(fgets(input, GET_ARRAY_SIZE(input), stdin) == NULL){
+            // EOF
+            break; 
+        }
 
         // Add null termination
         input[strlen(input) - 1] = '\0';
